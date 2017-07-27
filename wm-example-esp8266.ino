@@ -11,7 +11,7 @@ const char* password = "";
 
 // Wireless Monitor configuration
 const String host = "";
-const int port = 80;
+const int port = 80; // 443 for HTTPS
 const String api_key = "";
 const String monitor_key = "";
 
@@ -27,8 +27,15 @@ int i;
 HTTPClient http;
 DynamicJsonBuffer jsonBuffer;
 
+// The HTTPS fingerprint is a sha-1 hash in the form:
+// FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF:FF
+// This hash is found in the certificate of the site
+// Also uncomment every reference of `httpsFingerprint` on `http.begin`
+// Uncomment to enable HTTPS
+// String httpsFingerprint = "";
+
 bool auth() {
-    http.begin(host, port, "/api/authenticate");
+    http.begin(host, port, "/api/authenticate"/*, httpsFingerprint*/);
     http.addHeader("Content-Type", "application/x-www-form-urlencoded");
     String payload = "api_key=" + api_key + "&monitor_key=" + monitor_key;
     Serial.print("payload: ");
@@ -63,7 +70,7 @@ bool auth() {
 }
 
 bool send(float value) {
-    http.begin(host, port, "/api/send");
+    http.begin(host, port, "/api/send"/*, httpsFingerprint*/);
     http.addHeader("Content-Type", "application/json");
     http.addHeader("Authorization", "Bearer " + token);
     String payload;
@@ -86,7 +93,7 @@ bool send(float value) {
 }
 
 bool refreshToken() {
-    http.begin(host, port, "/api/refresh-token");
+    http.begin(host, port, "/api/refresh-token"/*, httpsFingerprint*/);
     http.addHeader("Content-Type", "application/json");
     http.addHeader("Authorization", "Bearer " + token);
 
