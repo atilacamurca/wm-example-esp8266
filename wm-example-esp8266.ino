@@ -1,8 +1,8 @@
 /**
 * Wireless Monitor com NodeMCU ESP8266-12E
 */
-#include <ESP8266HTTPClient.h>
 #include <ESP8266WiFi.h>
+#include <ESP8266HTTPClient.h>
 #include <ArduinoJson.h>
 
 // Wi-Fi configuration
